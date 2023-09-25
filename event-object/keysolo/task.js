@@ -4,9 +4,7 @@ class Game {
     this.wordElement = container.querySelector('.word');
     this.winsElement = container.querySelector('.status__wins');
     this.lossElement = container.querySelector('.status__loss');
-
     this.reset();
-
     this.registerEvents();
   }
 
@@ -17,6 +15,15 @@ class Game {
   }
 
   registerEvents() {
+    document.addEventListener('keyup', (event) => {        
+      const name = event.key;
+
+      if(this.currentSymbol.textContent.toLowerCase() === name.toLowerCase()){
+        this.success();
+      }else{
+        this.fail();
+      }
+      });
     /*
       TODO:
       Написать обработчик события, который откликается
@@ -24,7 +31,7 @@ class Game {
       В случае правильного ввода слова вызываем this.success()
       При неправильном вводе символа - this.fail();
       DOM-элемент текущего символа находится в свойстве this.currentSymbol.
-     */
+    */
   }
 
   success() {
@@ -91,4 +98,3 @@ class Game {
 }
 
 new Game(document.getElementById('game'))
-
