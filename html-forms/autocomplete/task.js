@@ -6,7 +6,6 @@ class Autocomplete {
     this.list = container.querySelector( '.autocomplete__list' );
     this.valueContainer = container.querySelector( '.autocomplete__value' );
     this.valueElement = container.querySelector( '.autocomplete__text-content' );
-
     this.registerEvents();
   }
 
@@ -16,13 +15,11 @@ class Autocomplete {
       this.list.classList.add( 'autocomplete__list_active' );
       this.searchInput.value = this.valueElement.textContent.trim();
       this.searchInput.focus();
-
       this.onSearch();
     });
 
 
     this.searchInput.addEventListener( 'input', e => this.onSearch());
-
     this.list.addEventListener( 'click', e => {
       const { target } = e;
       if ( !target.matches( '.autocomplete__item' )) {
@@ -43,14 +40,12 @@ class Autocomplete {
   onSelect( item ) {
     this.input.selectedIndex = item.index;
     this.valueElement.textContent = item.text;
-
     this.searchInput.classList.remove( 'autocomplete__search_active' );
     this.list.classList.remove( 'autocomplete__list_active' );
   }
 
   onSearch() {
     const matches = this.getMatches( this.searchInput.value );
-
     this.renderMatches( matches );
   }
 
@@ -68,6 +63,22 @@ class Autocomplete {
   }
 
   getMatches( text ) {
+    const options = Array.from(this.input.options);
+    const result = [];
+
+    options.forEach((optionText) => {
+      if (
+        optionText.textContent.toUpperCase().includes(text.toUpperCase()) &&
+        text !== ''
+      ) {
+        result.push({
+          text: optionText.textContent,
+          value: optionText.value,
+        });
+      }
+    });
+    return result;
+  }
     /*
       TODO: этот метод нужно дописать
       text - фраза, которую вводят в поле поиска
@@ -79,15 +90,9 @@ class Autocomplete {
       {
         text: 'Содержимое <option>',
         value: 'Содержимое атрибута value'
-      }
-    */
-    return [
-      {
-        text: 'Чубакка',
-        value: '1'
-      }
-    ];
+      }   
   }
+    */
 }
 
 new Autocomplete( document.querySelector( '.autocomplete' ));
